@@ -1,0 +1,63 @@
+@font-face {
+    font-family: 'roboto';
+    src: url('roboto.ttf') format('truetype');
+    font-weight: 1000;
+    font-style: normal;
+  }
+
+.hello {
+    color: red;
+    font-family: "roboto", 'sans-serif';
+  }
+
+body {
+    display: grid;
+    justify-items: center;
+    background-color: rgb(114, 114, 114);
+    color: white;
+    font-family: "roboto", 'sans-serif';
+}
+
+.header {
+    font-size: 2em;
+    font-weight: 700;
+}
+
+.container {
+    display: grid;
+    gap: 2vh;
+    padding-top: 2vh;
+    justify-items: center;
+}
+
+.timer {
+    display: grid;
+    background-color: grey;
+    padding: 2vh;
+    width: 50vw;
+    height: 40vh;
+    border-radius: 40px;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+}
+
+.clock {
+    font-size: 8em;
+    font-weight: 1000;
+    justify-self: center;
+}
+
+.toggle {
+    background-color: lightgray;
+    border-radius: 10px;
+    color: grey;
+    justify-self: center;
+    width: 40%;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
