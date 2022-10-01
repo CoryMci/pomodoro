@@ -96,7 +96,7 @@ body.finished .secondaryclock {
 .controls {
     display: grid;
     grid-template-columns: 3fr 4fr 3fr;
-    gap: 15px;
+    gap: 32px;
     height: 4em;
 }
 
