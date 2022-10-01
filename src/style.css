@@ -18,6 +18,17 @@ body {
     font-family: "roboto", 'sans-serif';
 }
 
+body.pomo {
+    background-color: rgb(252, 67, 67);
+}
+
+body.shortbreak {
+    background-color: rgb(80, 200, 255);
+}
+
+body.longbreak {
+    background-color: rgb(80, 80, 255);
+}
 
 .header {
     font-size: 2em;
@@ -34,7 +45,7 @@ body {
 .timer {
     display: grid;
     grid-template-rows: auto 1fr auto;
-    background-color: grey;
+    background-color: rgba(0, 0, 0, 0.3);
     padding: 2vh;
     width: 30vw;
     height: 30vh;
@@ -60,11 +71,26 @@ body {
     background-color: rgba(255, 255, 255, 0.3);
 }
 
-.clock {
+.clocks {
+    display: grid;
+    justify-items: center;
+    grid-template-rows: 3fr 1fr;
+}
+
+.primaryclock {
     font-size: 8em;
     font-weight: 1000;
     justify-self: center;
-    align-self: center;
+    align-self: end;
+}
+
+.secondaryclock {
+    display: none;
+}
+
+body.finished .secondaryclock {
+    display: block;
+    transition: 2s;
 }
 
 .controls {

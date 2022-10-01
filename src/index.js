@@ -5,14 +5,20 @@ import timer from './timer.js';
 
 
 
-const clock = function(type, length) {
+const clock = function(pomo, shortbreak, longbreak) {
     let on = false;
     let elapsedTime = 0;
-    let remainingTime = length;
+    let lap = 1;
+    let currentLength = pomo;
+    let currentMode = 'pomo';
+    let remainingTime = pomo;
+
 
     const isOn = () => on;
     const getElapsedTime = () => elapsedTime;
     const getRemainingTime = () => remainingTime;
+    const getMode = () => currentMode;
+
 
     const elapse = () => {
         elapsedTime++;
@@ -27,6 +33,44 @@ const clock = function(type, length) {
         on = false;
     };
 
+    const next = () => { //lap system used to automatically choose long break
+        lap++;
+        if (lap == 6) {
+            setMode('longbreak')
+            lap = 0;
+        } else if (currentMode == 'pomo') {
+            setMode('shortbreak');
+        } else {
+            setMode('pomo');
+        };
+        console.log(lap);
+        console.log(currentMode);
+    };
+
+    const setMode = (mode, override=false) =>  { //override lap system for manual break length
+        if (mode == 'pomo'){
+            currentMode = mode;
+            currentLength = pomo;
+            if (override) {
+                lap = 1;
+            };
+        } else if (mode == 'shortbreak') {
+            currentMode = mode;
+            currentLength = shortbreak
+            if (override) {
+                lap = 2;
+            };
+        } else if (mode == 'longbreak') {
+            currentMode = mode;
+            currentLength = longbreak;
+            if (override) {
+                lap = 0;
+            };
+        };
+        reset();
+        console.log(mode);
+        };
+
     const finished = () => {
         if (remainingTime == 0) {
             return true;
@@ -38,53 +82,91 @@ const clock = function(type, length) {
     const reset = () => {
         on = false;
         elapsedTime = 0;
-        remainingTime = length;
-    }
+        remainingTime = currentLength;
+    };
 
-    return {type, length, isOn, getElapsedTime, getRemainingTime, elapse, start, stop, finished, reset};
+    const save = () => {
+        console.log('save func')
+    };
+
+    return {getMode, setMode, isOn, getElapsedTime, getRemainingTime, elapse, start, stop, next, finished, reset, save};
 };
 
 const ui = (() => {
-    let clockDom = document.querySelector('.clock');
+    let primaryClock = document.querySelector('.primaryclock');
+    let secondaryClock = document.querySelector('.secondaryclock');
     let body = document.querySelector('body');
     let ToggleBtn = document.querySelector('.toggle');
 
-    const refresh = (clockObj) => {
-        clockDom.textContent = parseTime(clockObj.getRemainingTime());
-
+    const refreshClock = (clockObj) => {
+        primaryClock.textContent = parseTime(clockObj.getRemainingTime());
+        secondaryClock.textContent = parseTime(clockObj.getElapsedTime());
         if (clockObj.finished()) {
             body.classList.add('finished')
+
         } else {
             body.classList.remove('finished')
         };
 
         if (clockObj.isOn()) {
             body.classList.add('active');
+            ToggleBtn.textContent = 'STOP';
         } else {
             body.classList.remove('active');
+            ToggleBtn.textContent = 'START';
         };
     };
+    const refreshColor = (clockObj) => {
+        body.classList.remove('pomo', 'shortbreak', 'longbreak');
+        body.classList.add(clockObj.getMode());
+    };
+    
 
-    return {refresh};
+    return {refreshClock, refreshColor};
 })();
 
 let ToggleBtn = document.querySelector('.toggle');
 ToggleBtn.addEventListener('click', function(){
     if (!session.isOn()) {
         session.start();
+        console.log('newtick');
         tick();
     } else {
         session.stop();
     }
-    ui.refresh(session);
+    ui.refreshClock(session);
 
+});
+
+let resetBtn = document.querySelector('.reset');
+resetBtn.addEventListener('click', function(){
+    session.reset();
+    ui.refreshClock(session);
+    ui.refreshColor(session);
+});
+
+let NextBtn = document.querySelector('.skip');
+NextBtn.addEventListener('click', function(){
+    session.next();
+    session.reset();
+    ui.refreshClock(session);
+    ui.refreshColor(session);
+});
+
+let ModeBtns = document.querySelectorAll('.modes *')
+ModeBtns.forEach((btn)=> {
+btn.addEventListener('click', () => {
+    session.setMode(btn.id, true);
+    ui.refreshClock(session);
+    ui.refreshColor(session);
+});
 });
 
 const tick = () => {
     setTimeout(() => {
         if (session.isOn()) {
             session.elapse();
-            ui.refresh(session);
+            ui.refreshClock(session);
             tick();
         };
     }, 1000);
@@ -106,7 +188,7 @@ const parseTime = (seconds) => {
 };
 
 
-let session = clock('Pomo', 5);
+let session = clock((25*60), (5*60), (10*60));
 
 
-ui.refresh(session);
+ui.refreshClock(session);
