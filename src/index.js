@@ -10,7 +10,7 @@ const clock = function(type, length) {
     let elapsedTime = 0;
     let remainingTime = length;
 
-    const getOn = () => on;
+    const isOn = () => on;
     const getElapsedTime = () => elapsedTime;
     const getRemainingTime = () => remainingTime;
 
@@ -41,29 +41,72 @@ const clock = function(type, length) {
         remainingTime = length;
     }
 
-    return {type, length, getOn, getElapsedTime, getRemainingTime, elapse, start, stop, finished, reset};
+    return {type, length, isOn, getElapsedTime, getRemainingTime, elapse, start, stop, finished, reset};
 };
 
+const ui = (() => {
+    let clockDom = document.querySelector('.clock');
+    let body = document.querySelector('body');
+    let ToggleBtn = document.querySelector('.toggle');
+
+    const refresh = (clockObj) => {
+        clockDom.textContent = parseTime(clockObj.getRemainingTime());
+
+        if (clockObj.finished()) {
+            body.classList.add('finished')
+        } else {
+            body.classList.remove('finished')
+        };
+
+        if (clockObj.isOn()) {
+            body.classList.add('active');
+        } else {
+            body.classList.remove('active');
+        };
+    };
+
+    return {refresh};
+})();
+
+let ToggleBtn = document.querySelector('.toggle');
+ToggleBtn.addEventListener('click', function(){
+    if (!session.isOn()) {
+        session.start();
+        tick();
+    } else {
+        session.stop();
+    }
+    ui.refresh(session);
+
+});
 
 const tick = () => {
     setTimeout(() => {
-        if (session.getOn()) {
+        if (session.isOn()) {
             session.elapse();
-            refresh();
+            ui.refresh(session);
             tick();
         };
     }, 1000);
 };
 
-let session = clock('Pomo', 5);
+const parseTime = (seconds) => {
+    let hr = Math.floor(seconds / 3600);
+    let hrRemainder = seconds % 3600;
+    let min = Math.floor(hrRemainder / 60);
+    let sec = hrRemainder % 60;
 
-const refresh = () => {
-    let clockDom = document.querySelector('.clock');
-    clockDom.textContent = session.getRemainingTime();
+    // if 0 hours, don't display any numbers
+    let strHr = (hr > 0) ? `${hr}:` : ''
+
+    let strMin = (min > 9) ? min : `0${min}`
+    let strSec = (sec > 9) ? sec : `0${sec}`
+
+    return (`${strHr}${strMin}:${strSec}`)
 };
 
-let ToggleBtn = document.querySelector('.toggle');
-ToggleBtn.addEventListener('click', function(){
-    session.start();
-    tick();
-});
+
+let session = clock('Pomo', 5);
+
+
+ui.refresh(session);

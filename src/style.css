@@ -18,6 +18,7 @@ body {
     font-family: "roboto", 'sans-serif';
 }
 
+
 .header {
     font-size: 2em;
     font-weight: 700;
@@ -40,7 +41,7 @@ body {
     border-radius: 40px;
 }
 
-.buttons {
+.modes {
     height: 4em;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -48,15 +49,15 @@ body {
     align-items: center;
 }
 
-.buttons * {
+.modes * {
     width: 8em;
     text-align: center;
     padding: 1em;
     border-radius: 5px;
 }
 
-.buttons *:hover {
-    background-color: rgba(0, 0, 0, 0.3);
+.modes *:hover {
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 .clock {
@@ -66,13 +67,42 @@ body {
     align-self: center;
 }
 
+.controls {
+    display: grid;
+    grid-template-columns: 3fr 4fr 3fr;
+    gap: 15px;
+    height: 4em;
+}
+
+.reset {
+    grid-column: 1 / 2;
+    justify-self: end;
+    align-self: center;
+    display: none;
+}
+
+body.active .reset {
+    display:inline;
+}
+
+.skip {
+    grid-column: 3 / 4 ;
+    align-self: center;
+    display: none;
+}
+
+body.active .skip {
+    display: inline;
+}
+
 .toggle {
+    grid-column: 2 / 3;
     background-color: lightgray;
     border-radius: 10px;
     color: grey;
     justify-self: center;
-    width: 40%;
-    height: 4em;
+    width: 100%;
+    height: 100%;
     display: grid;
     align-items: center;
     justify-items: center;
