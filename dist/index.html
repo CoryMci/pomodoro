@@ -6,17 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 <script defer src="runtime.bundle.js"></script><script defer src="index.bundle.js"></script><script defer src="timer.bundle.js"></script></head>
-<body>
+<body class="pomo">
     <div class="container">
         <div class="header">Pomodoro</div>
         <div class="timer">
-            <div class="buttons">
+            <div class="modes">
                 <div id="pomo">Pomodoro</div>
                 <div id="shortbreak">Short Break</div>
                 <div id="longbreak">Long Break</div>
             </div>
-            <div class="clock">25:00</div>
-            <div class="toggle">start</div>
+            <div class="clocks">
+                <div class="primaryclock">25:00</div>
+                <div class="secondaryclock">0:00</div>
+            </div>
+
+            <div class="controls">
+                <div class="reset"><span class="material-symbols-outlined">
+                    replay
+                    </span></div>
+                <div class="toggle">start</div>
+                <div class="skip"><span class="material-symbols-outlined">
+                    skip_next
+                    </span></div>
+            </div>
         </div>
     </div>
 </body>
