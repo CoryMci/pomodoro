@@ -162,8 +162,10 @@ btn.addEventListener('click', () => {
 });
 });
 
+let timerId = 'tik'; //must be declared so function can reference timer ID
 const tick = () => {
-    setTimeout(() => {
+    clearTimeout(timerId);
+    timerId = setTimeout(function() {
         if (session.isOn()) {
             session.elapse();
             ui.refreshClock(session);
