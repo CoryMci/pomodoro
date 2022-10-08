@@ -25,7 +25,7 @@ const clock = function(pomo, shortbreak, longbreak) {
         elapsedTime++;
         if (remainingTime != 0) {
             remainingTime--;
-        };
+        }
     };
     const start = () => {
         on = true;
@@ -43,7 +43,7 @@ const clock = function(pomo, shortbreak, longbreak) {
             setMode('shortbreak');
         } else {
             setMode('pomo');
-        };
+        }
         console.log(lap);
         console.log(currentMode);
     };
@@ -54,20 +54,20 @@ const clock = function(pomo, shortbreak, longbreak) {
             currentLength = pomo;
             if (override) {
                 lap = 1;
-            };
+            }
         } else if (mode == 'shortbreak') {
             currentMode = mode;
             currentLength = shortbreak
             if (override) {
                 lap = 2;
-            };
+            }
         } else if (mode == 'longbreak') {
             currentMode = mode;
             currentLength = longbreak;
             if (override) {
                 lap = 0;
-            };
-        };
+            }
+        }
         reset();
         console.log(mode);
         };
@@ -100,6 +100,7 @@ const ui = (() => {
     let ToggleBtn = document.querySelector('.toggle');
 
     const refreshClock = (clockObj) => {
+        document.title = parseTime(clockObj.getRemainingTime());
         primaryClock.textContent = parseTime(clockObj.getRemainingTime());
         secondaryClock.textContent = parseTime(clockObj.getElapsedTime());
         if (clockObj.finished()) {
@@ -107,7 +108,7 @@ const ui = (() => {
 
         } else {
             body.classList.remove('finished')
-        };
+        }
 
         if (clockObj.isOn()) {
             body.classList.add('active');
@@ -115,7 +116,7 @@ const ui = (() => {
         } else {
             body.classList.remove('active');
             ToggleBtn.textContent = 'START';
-        };
+        }
     };
     const refreshColor = (clockObj) => {
         body.classList.remove('pomo', 'shortbreak', 'longbreak');
@@ -171,7 +172,7 @@ const tick = () => {
             session.elapse();
             ui.refreshClock(session);
             tick();
-        };
+        }
     }, 1000);
 };
 
