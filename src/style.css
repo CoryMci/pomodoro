@@ -104,21 +104,23 @@ body.finished .secondaryclock {
     grid-column: 1 / 2;
     justify-self: end;
     align-self: center;
-    display: none;
+    opacity: 0;
+    transition: opacity 500ms;
 }
 
 body.active .reset {
-    display:inline;
+    opacity: 100;
 }
 
 .skip {
     grid-column: 3 / 4 ;
     align-self: center;
-    display: none;
+    opacity: 0;
+    transition: opacity 500ms;
 }
 
 body.active .skip {
-    display: inline;
+    opacity: 100;
 }
 
 .toggle {
