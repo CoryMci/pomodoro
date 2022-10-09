@@ -5,7 +5,7 @@ module.exports = {
     mode: 'development',
     entry: {
         index: './src/index.js',
-        timer: './src/timer.js',
+        clock: './src/clock.js',
       },
       devtool: 'inline-source-map',
       devServer: {
