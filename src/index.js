@@ -155,9 +155,17 @@ const ui = (() => {
         body.classList.remove('pomo', 'shortbreak', 'longbreak');
         body.classList.add(clockObj.getMode());
     };
+
+    const showSettings = () => {
+        if (document.querySelector('body').classList.contains('settingsmenu')) {
+        document.querySelector('body').classList.remove('settingsmenu')
+    } else {
+        document.querySelector('body').classList.add('settingsmenu')
+    }
+    }
     
 
-    return {refreshClock, refreshColor};
+    return {refreshClock, refreshColor, showSettings};
 })();
 
 let ToggleBtn = document.querySelector('.toggle');
@@ -200,12 +208,7 @@ btn.addEventListener('click', () => {
 //refactor to move into ui function please
 let settingsBtn = document.querySelector('.settingsbtn')
 settingsBtn.addEventListener('click', function () {
-    if (document.querySelector('body').classList.contains('settingsmenu')) {
-        document.querySelector('body').classList.remove('settingsmenu')
-    } else {
-        document.querySelector('body').classList.add('settingsmenu')
-    }
-    
+    ui.showSettings();
 });
 
 let pomolengthslider = document.querySelector('#pomolength');
