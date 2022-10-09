@@ -18,6 +18,7 @@ body {
     font-family: "roboto", 'sans-serif';
     cursor: default;
     margin: 0px;
+    transition: background-color 200ms;
 }
 
 body.pomo {
@@ -55,6 +56,10 @@ body.longbreak {
 
 .settingsbtn:hover {
     transform: rotate(45deg);
+}
+
+.reportbtn {
+    cursor:pointer;
 }
 
 .title {
