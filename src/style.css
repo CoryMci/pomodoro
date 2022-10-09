@@ -186,3 +186,9 @@ body.settingsmenu .settings{
     gap: 25px;
     padding: 64px;
 }
+
+.pomoslider, .shortbreakslider, .longbreakslider {
+    display: grid;
+    grid-template-columns: 1fr 2em;
+    text-align: center;
+}

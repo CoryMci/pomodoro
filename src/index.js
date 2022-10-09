@@ -70,7 +70,40 @@ const clock = function(pomo, shortbreak, longbreak) {
         }
         reset();
         console.log(mode);
-        };
+    };
+    
+    const setPomoTime = (num) => {
+        pomo = num;
+        if (currentMode == 'pomo') {
+            if (pomo >= elapsedTime) {
+                remainingTime = pomo - elapsedTime
+            } else {
+                remainingTime = 0
+            }
+        }
+    };
+
+    const setShortBreakTime = (num) => {
+        shortbreak = num;
+        if (currentMode == 'shortbreak') {
+            if (shortbreak >= elapsedTime) {
+                remainingTime = shortbreak - elapsedTime
+            } else {
+                remainingTime = 0
+            }
+        }
+    }; 
+    
+    const setLongBreakTime = (num) => {
+        longbreak = num;
+        if (currentMode == 'longbreak') {
+            if (longbreak >= elapsedTime) {
+                remainingTime = longbreak - elapsedTime
+            } else {
+                remainingTime = 0
+            }
+        }
+    };
 
     const finished = () => {
         if (remainingTime == 0) {
@@ -90,7 +123,7 @@ const clock = function(pomo, shortbreak, longbreak) {
         console.log('save func')
     };
 
-    return {getMode, setMode, isOn, getElapsedTime, getRemainingTime, elapse, start, stop, next, finished, reset, save};
+    return {getMode, setMode, setPomoTime, setShortBreakTime, setLongBreakTime, isOn, getElapsedTime, getRemainingTime, elapse, start, stop, next, finished, reset, save};
 };
 
 const ui = (() => {
@@ -174,6 +207,27 @@ settingsBtn.addEventListener('click', function () {
     }
     
 });
+
+let pomolengthslider = document.querySelector('#pomolength');
+pomolengthslider.oninput = function() {
+    session.setPomoTime(this.value * 60);
+    ui.refreshClock(session);
+    pomolengthslider.nextSibling.textContent = this.value;
+};
+
+let shortbreaklengthslider = document.querySelector('#shortbreaklength');
+shortbreaklengthslider.oninput = function() {
+    session.setShortBreakTime(this.value * 60);
+    ui.refreshClock(session);
+    shortbreaklengthslider.nextSibling.textContent = this.value;
+};
+
+let longbreaklengthslider = document.querySelector('#longbreaklength');
+longbreaklengthslider.oninput = function() {
+    session.setLongBreakTime(this.value * 60);
+    ui.refreshClock(session);
+    longbreaklengthslider.nextSibling.textContent = this.value;
+};
 
 let timerId = 'tik'; //must be declared so function can reference timer ID
 const tick = () => {

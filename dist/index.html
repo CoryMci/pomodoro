@@ -8,7 +8,14 @@
 <script defer src="runtime.bundle.js"></script><script defer src="index.bundle.js"></script><script defer src="timer.bundle.js"></script></head>
 <body class="pomo">
     <div class="container">
-        <div class="header">Pomodoro</div>
+        <div class="header">
+            <div class="title">Pomodoro</div>
+            <div class="tools">
+                <span class="settingsbtn material-symbols-outlined">settings</span>
+                <span class="reportbtn material-symbols-outlined">insert_chart</span>
+            </div>
+
+        </div>
         <div class="timer">
             <div class="modes">
                 <div id="pomo">Pomodoro</div>
@@ -30,6 +37,26 @@
                     </span></div>
             </div>
         </div>
+    </div>
+    <div class="settings">
+        <div class="sliders">
+            <label for="pomolength">Pomodoro</label>
+            <div class="pomoslider">
+                <input type="range" min="1" max="60" value="25" class="slider" id="pomolength">
+                25
+            </div>
+            <label for="shortbreak">Short break</label>
+            <div class="shortbreakslider">
+                <input type="range" min="1" max="60" value="5" class="slider" id="shortbreaklength">
+                5
+            </div>
+            <label for="longbreaklength">Long break</label>
+            <div class="longbreakslider">
+                <input type="range" min="1" max="60" value="15" class="slider" id="longbreaklength">
+                15
+            </div>
+        </div>
+
     </div>
 </body>
 </html>
