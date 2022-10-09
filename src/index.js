@@ -9,10 +9,13 @@ import timer from './timer.js';
 const clock = function(pomo, shortbreak, longbreak) {
     let on = false;
     let elapsedTime = 0;
+    let clockStart = Math.round(Date.now() / 1000);
+    let carryTime = 0;
     let lap = 1;
     let currentLength = pomo;
     let currentMode = 'pomo';
     let remainingTime = pomo;
+
 
 
     const isOn = () => on;
@@ -22,17 +25,24 @@ const clock = function(pomo, shortbreak, longbreak) {
 
 
     const elapse = () => {
-        elapsedTime++;
-        if (remainingTime != 0) {
-            remainingTime--;
+        elapsedTime = carryTime + Math.round(Date.now() / 1000) - clockStart;
+        if (remainingTime >= 1) {
+            remainingTime = currentLength - elapsedTime;
+            if (remainingTime < 0) {
+                //prevents displaying negative remaining time due to browser lag
+                remainingTime = 0;
+            }
         }
     };
     const start = () => {
         on = true;
+        clockStart = Math.round(Date.now() / 1000);
     };
     const stop = () => {
         on = false;
+        carryTime = elapsedTime;
     };
+
 
     const next = () => { //lap system used to automatically choose long break
         lap++;
@@ -44,8 +54,6 @@ const clock = function(pomo, shortbreak, longbreak) {
         } else {
             setMode('pomo');
         }
-        console.log(lap);
-        console.log(currentMode);
     };
 
     const setMode = (mode, override=false) =>  { //override lap system for manual break length
@@ -76,7 +84,8 @@ const clock = function(pomo, shortbreak, longbreak) {
         pomo = num;
         if (currentMode == 'pomo') {
             if (pomo >= elapsedTime) {
-                remainingTime = pomo - elapsedTime
+                currentLength = pomo
+                remainingTime = currentLength - elapsedTime
             } else {
                 remainingTime = 0
             }
@@ -87,7 +96,8 @@ const clock = function(pomo, shortbreak, longbreak) {
         shortbreak = num;
         if (currentMode == 'shortbreak') {
             if (shortbreak >= elapsedTime) {
-                remainingTime = shortbreak - elapsedTime
+                currentLength = shortbreak;
+                remainingTime = currentLength - elapsedTime;
             } else {
                 remainingTime = 0
             }
@@ -98,7 +108,8 @@ const clock = function(pomo, shortbreak, longbreak) {
         longbreak = num;
         if (currentMode == 'longbreak') {
             if (longbreak >= elapsedTime) {
-                remainingTime = longbreak - elapsedTime
+                currentLength = longbreak;
+                remainingTime = currentLength - elapsedTime;
             } else {
                 remainingTime = 0
             }
@@ -116,6 +127,7 @@ const clock = function(pomo, shortbreak, longbreak) {
     const reset = () => {
         on = false;
         elapsedTime = 0;
+        carryTime = 0;
         remainingTime = currentLength;
     };
 
@@ -205,7 +217,6 @@ btn.addEventListener('click', () => {
 });
 });
 
-//refactor to move into ui function please
 let settingsBtn = document.querySelector('.settingsbtn')
 settingsBtn.addEventListener('click', function () {
     ui.showSettings();
