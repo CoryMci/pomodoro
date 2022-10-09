@@ -17,6 +17,7 @@ body {
     color: white;
     font-family: "roboto", 'sans-serif';
     cursor: default;
+    margin: 0px;
 }
 
 body.pomo {
@@ -47,12 +48,12 @@ body.longbreak {
     gap: 12px;
 }
 
-.settings {
+.settingsbtn {
     transition: transform 200ms;
     cursor:pointer;
 }
 
-.settings:hover {
+.settingsbtn:hover {
     transform: rotate(45deg);
 }
 
@@ -164,4 +165,24 @@ body.active .skip {
     align-items: center;
     justify-items: center;
     cursor: pointer;
+}
+
+.settings {
+    position: fixed;
+    right: -400px;
+    width: 400px;
+    background-color: rgba(0, 0, 0, 0.3);
+    height: 100vh;
+    transition: transform 500ms;
+}
+
+body.settingsmenu .settings{
+    transform: translate(-400px);
+}
+
+
+.sliders {
+    display: grid;
+    gap: 25px;
+    padding: 64px;
 }

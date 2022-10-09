@@ -164,6 +164,17 @@ btn.addEventListener('click', () => {
 });
 });
 
+//refactor to move into ui function please
+let settingsBtn = document.querySelector('.settingsbtn')
+settingsBtn.addEventListener('click', function () {
+    if (document.querySelector('body').classList.contains('settingsmenu')) {
+        document.querySelector('body').classList.remove('settingsmenu')
+    } else {
+        document.querySelector('body').classList.add('settingsmenu')
+    }
+    
+});
+
 let timerId = 'tik'; //must be declared so function can reference timer ID
 const tick = () => {
     clearTimeout(timerId);
