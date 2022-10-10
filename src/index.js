@@ -1,6 +1,7 @@
-import _ from 'lodash';
+import _, { after } from 'lodash';
 import './style.css';
 import './fontstyle.css';
+import alarm from './alarm.wav';
 import clock from './clock.js';
 
 const ui = (() => {
@@ -8,6 +9,9 @@ const ui = (() => {
     let secondaryClock = document.querySelector('.secondaryclock');
     let body = document.querySelector('body');
     let ToggleBtn = document.querySelector('.toggle');
+    let ringer = false;
+    let bell = new Audio(alarm);
+
 
     const refreshClock = (clockObj) => {
         document.title = parseTime(clockObj.getRemainingTime());
@@ -15,9 +19,15 @@ const ui = (() => {
         secondaryClock.textContent = parseTime(clockObj.getElapsedTime());
         if (clockObj.finished()) {
             body.classList.add('finished')
+            if (ringer == false) {
+                //only play bell once
+                bell.play();
+                ringer = true;
+            }
 
         } else {
             body.classList.remove('finished')
+            ringer = false;
         }
 
         if (clockObj.isOn()) {
@@ -88,7 +98,7 @@ settingsBtn.addEventListener('click', function () {
     
 });
 
-//close settings menu
+//close settings menu when user clicks elsewhere
 document.addEventListener('click', (e) => {
     if (document.querySelector('body').classList.contains('settingsmenu')) {
         if (!e.target.closest('.settings') && !e.target.closest('.settingsbtn')) {
